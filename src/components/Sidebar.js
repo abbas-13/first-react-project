@@ -5,14 +5,13 @@ export const Sidebar = () => {
     { label: "Home", path: "/" },
     { label: "About Us", path: "/AboutUs" },
     { label: "Contact Us", path: "/ContactUs" },
+    { label: "Users", path: "/Users" },
   ];
 
   const renderedLinks = links.map((link) => {
     return (
-      <li className="mb-2">
-        <Link key={link.label} to={link.path}>
-          {link.label}
-        </Link>
+      <li key={link.label} className="mb-2">
+        <Link to={link.path}>{link.label}</Link>
       </li>
     );
   });

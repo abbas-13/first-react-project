@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage";
 import ContactUsPage from "./pages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import { AppShell } from "./components/AppShell";
+import { UsersPage } from "./pages/UsersPage";
 
 function App() {
   return (
@@ -30,6 +31,14 @@ function App() {
           element={
             <AppShell>
               <AboutUsPage />
+            </AppShell>
+          }
+        />
+        <Route
+          path="/Users"
+          element={
+            <AppShell>
+              <UsersPage className="justify" />
             </AppShell>
           }
         />
