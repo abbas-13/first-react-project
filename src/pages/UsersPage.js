@@ -3,10 +3,10 @@ import { List } from "../components/List";
 
 export const UsersPage = () => {
   const [data, setData] = useState([]);
-
   const [inputValue, setInputValue] = useState("");
 
   const fetchData = async (queryString = "/") => {
+    console.log(`https://jsonplaceholder.typicode.com/users${queryString}`);
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/users${queryString}`
     );
@@ -30,11 +30,9 @@ export const UsersPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (inputValue) {
-      fetchData(`?username=${inputValue}`);
-    } else {
-      fetchData();
-    }
+
+    const queryString = inputValue ? `?username=${inputValue}` : "";
+    fetchData(queryString);
   };
 
   return (
@@ -44,7 +42,7 @@ export const UsersPage = () => {
           onChange={handleChange}
           className="rounded-lg border mx-3.5 p-1 w-64"
           placeholder="Username"
-        ></input>
+        />
         <button className="border w-24 rounded-lg mx-2.5 p-1">Search</button>
       </form>
       <List data={data} columns={columnNames} />
