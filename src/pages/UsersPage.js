@@ -6,7 +6,6 @@ export const UsersPage = () => {
   const [inputValue, setInputValue] = useState("");
 
   const fetchData = async (queryString = "/") => {
-    console.log(`https://jsonplaceholder.typicode.com/users${queryString}`);
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/users${queryString}`
     );
