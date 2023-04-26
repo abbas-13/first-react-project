@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { List } from "../components/List";
 
 export const UsersPage = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryParam = searchParams.get("username");
 
   const fetchData = async (queryString = "/") => {
     const response = await fetch(
@@ -14,8 +18,8 @@ export const UsersPage = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(queryParam ? `?username=${queryParam}` : "");
+  }, [queryParam]);
 
   const columnNames = [
     { value: "User ID", keyName: "id" },
@@ -30,8 +34,8 @@ export const UsersPage = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const queryString = inputValue ? `?username=${inputValue}` : "";
-    fetchData(queryString);
+    const queryString = inputValue ? `username=${inputValue}` : "";
+    setSearchParams(queryString);
   };
 
   return (
