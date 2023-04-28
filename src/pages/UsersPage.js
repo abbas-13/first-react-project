@@ -1,22 +1,24 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
 import { List } from "../components/List";
 
 export const UsersPage = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
+
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const queryParam = searchParams.get("username");
   const columnNames = [
     { value: "User ID", keyName: "id" },
     { value: "Name", keyName: "name" },
     { value: "Username", keyName: "username" },
   ];
 
-  const queryParam = searchParams.get("username");
-
   const debounce = (func, timeout = 1000) => {
     let timer;
+
     return (...args) => {
       clearTimeout(timer);
 
@@ -47,6 +49,7 @@ export const UsersPage = () => {
 
   const handleChange = (event) => {
     const targetValue = event.target.value;
+
     setInputValue(targetValue);
     delayedSearch({ username: targetValue });
   };
