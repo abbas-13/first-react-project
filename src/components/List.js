@@ -1,4 +1,8 @@
-export const List = ({ data, columns }) => {
+import { useState } from "react";
+
+import { Pagination } from "./Pagination";
+
+export const List = ({ total, data, columns, onPageChange, currentPage }) => {
   const renderedHeaders = columns.map((column) => {
     return (
       <th className="px-4 py-2 border-b-2" key={column.keyName}>
@@ -7,7 +11,7 @@ export const List = ({ data, columns }) => {
     );
   });
 
-  const renderedItems = data.map((item, index) => {
+  const renderedItems = data?.map((item, index) => {
     return (
       <tr key={index}>
         {columns.map((column, index) => {
@@ -32,6 +36,11 @@ export const List = ({ data, columns }) => {
         </thead>
         <tbody>{renderedItems}</tbody>
       </table>
+      <Pagination
+        total={total}
+        onPageChange={onPageChange}
+        currentPage={currentPage}
+      />
     </div>
   );
 };
