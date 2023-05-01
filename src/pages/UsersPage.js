@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { List } from "../components/List";
+import { SearchBar } from "../components/Search";
 
 export const UsersPage = () => {
   const [data, setData] = useState([]);
@@ -56,11 +57,10 @@ export const UsersPage = () => {
 
   return (
     <div>
-      <input
-        onChange={handleChange}
-        className="rounded-lg border mx-3.5 p-1 w-64"
+      <SearchBar
         placeholder="Username"
-        value={inputValue}
+        handleChange={handleChange}
+        inputValue={inputValue}
       />
       <List data={data} columns={columnNames} />
     </div>
