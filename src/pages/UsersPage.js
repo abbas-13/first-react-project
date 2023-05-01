@@ -57,7 +57,11 @@ export const UsersPage = () => {
 
   return (
     <div>
-      <SearchBar handleChange={handleChange} inputValue={inputValue} />
+      <SearchBar
+        placeholder="Username"
+        handleChange={handleChange}
+        inputValue={inputValue}
+      />
       <List data={data} columns={columnNames} />
     </div>
   );
