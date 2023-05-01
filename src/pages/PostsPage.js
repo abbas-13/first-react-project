@@ -6,6 +6,8 @@ const totalPosts = 100;
 
 export const PostsPage = () => {
   const [data, setData] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(10);
 
   const columnNames = [
     { value: "ID", keyName: "id" },
@@ -23,9 +25,6 @@ export const PostsPage = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(10);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;

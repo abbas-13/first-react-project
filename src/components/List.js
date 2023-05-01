@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Pagination } from "./Pagination";
 
 export const List = ({ total, data, columns, onPageChange, currentPage }) => {
