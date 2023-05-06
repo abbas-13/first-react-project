@@ -7,6 +7,9 @@ import { SearchBar } from "../components/Search";
 export const UsersPage = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage, setUsersPerPage] = useState(10);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -36,23 +39,56 @@ export const UsersPage = () => {
   );
 
   const fetchData = async (queryString = "") => {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/users${queryString}`
-    );
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/users${queryString}`
+      );
 
-    const usersData = await response.json();
-    setData(usersData);
+      const usersData = await response.json();
+      setData(usersData);
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchData(queryParam ? `?username=${queryParam}` : "");
   }, [queryParam]);
 
+  const totalUsers = data?.length;
+  const lastPage = totalUsers / usersPerPage;
+  const indexOfLastPost = currentPage * usersPerPage;
+  const indexOfFirstPost = indexOfLastPost - usersPerPage;
+  const currentUsers = data?.slice(indexOfFirstPost, indexOfLastPost);
+
   const handleChange = (event) => {
     const targetValue = event.target.value;
 
     setInputValue(targetValue);
     delayedSearch({ username: targetValue });
+  };
+
+  const onPageChange = (number) => {
+    setCurrentPage(number);
+  };
+
+  const previousPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== lastPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handleSelectChange = (event) => {
+    setUsersPerPage(event.target.value);
   };
 
   return (
@@ -62,7 +98,18 @@ export const UsersPage = () => {
         handleChange={handleChange}
         inputValue={inputValue}
       />
-      <List data={data} columns={columnNames} />
+      <List
+        data={currentUsers}
+        columns={columnNames}
+        onPageChange={onPageChange}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        currentPage={currentPage}
+        total={totalUsers}
+        postsPerPage={usersPerPage}
+        handleSelectChange={handleSelectChange}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

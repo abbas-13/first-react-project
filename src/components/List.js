@@ -1,6 +1,19 @@
 import { Pagination } from "./Pagination";
 
-export const List = ({ total, data, columns, onPageChange, currentPage }) => {
+import logo from "../giphy.webp";
+
+export const List = ({
+  data,
+  columns,
+  total,
+  onPageChange,
+  currentPage,
+  nextPage,
+  previousPage,
+  postsPerPage,
+  handleSelectChange,
+  isLoading,
+}) => {
   const renderedHeaders = columns.map((column) => {
     return (
       <th className="px-4 py-2 border-b-2" key={column.keyName}>
@@ -15,7 +28,7 @@ export const List = ({ total, data, columns, onPageChange, currentPage }) => {
         {columns.map((column, index) => {
           return (
             <td
-              className="px-4 py-2"
+              className="px-4 py-2 break-words"
               key={`${index} - ${item[column.keyName]}`}
             >
               {item[column.keyName]}
@@ -25,6 +38,14 @@ export const List = ({ total, data, columns, onPageChange, currentPage }) => {
       </tr>
     );
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <img src={logo} alt="loading..." />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -37,7 +58,11 @@ export const List = ({ total, data, columns, onPageChange, currentPage }) => {
       <Pagination
         total={total}
         onPageChange={onPageChange}
+        nextPage={nextPage}
+        previousPage={previousPage}
         currentPage={currentPage}
+        postsPerPage={postsPerPage}
+        handleSelectChange={handleSelectChange}
       />
     </div>
   );
