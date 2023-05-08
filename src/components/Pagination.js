@@ -5,14 +5,12 @@ export const Pagination = ({
   total,
   currentPage,
   onPageChange,
-  nextPage,
-  previousPage,
-  postsPerPage,
+  rowsPerPage,
   handleSelectChange,
 }) => {
   const [pagesToShow, setPagesToShow] = useState([1]);
 
-  const lastPage = Math.ceil(total / postsPerPage);
+  const lastPage = Math.ceil(total / rowsPerPage);
 
   const getPagesToShow = () => {
     if (lastPage === 1) {
@@ -20,17 +18,16 @@ export const Pagination = ({
     } else {
       const tempNumbers = [1, lastPage];
 
-      const firstValue = currentPage === 1 ? currentPage + 1 : 0;
-      const secondValue = currentPage - 1;
-      const thirdValue = currentPage;
-      const fourthValue = currentPage + 1 < lastPage ? currentPage + 1 : 0;
+      const nextPageValue = currentPage === 1 ? currentPage + 1 : 0;
+      const previousPageValue = currentPage - 1;
+      const secondLastValue = currentPage + 1 < lastPage ? currentPage + 1 : 0;
       const fifthValue = currentPage === lastPage ? currentPage - 2 : 0;
 
       tempNumbers.push(
-        firstValue < 1 ? 0 : firstValue,
-        secondValue < 1 ? 0 : secondValue,
-        thirdValue > lastPage ? 0 : thirdValue,
-        fourthValue > lastPage ? 0 : fourthValue,
+        nextPageValue < 1 ? 0 : nextPageValue,
+        previousPageValue < 1 ? 0 : previousPageValue,
+        currentPage > lastPage ? 0 : currentPage,
+        secondLastValue > lastPage ? 0 : secondLastValue,
         fifthValue > lastPage ? 0 : fifthValue
       );
 
@@ -55,17 +52,18 @@ export const Pagination = ({
 
   useEffect(() => {
     getPagesToShow();
-  }, [currentPage, postsPerPage]);
-
-  const classNames = "px-2 py-2 flex border cursor-pointer";
+  }, [currentPage, rowsPerPage]);
 
   return (
-    <div className="flex items-baseline py-8 justify-center">
-      <nav className="flex items-baseline py-8 justify-center">
-        <button onClick={previousPage} className="cursor-pointer">
+    <div className="flex items-baseline my-8 justify-center">
+      <nav className="flex items-baseline justify-center">
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          className="cursor-pointer"
+        >
           Previous
         </button>
-        <ul className="flex gap-4 px-4 justify-center">
+        <ul className="flex gap-4 mx-4 justify-center">
           {pagesToShow.map((number, index) => (
             <li
               onClick={() => {
@@ -73,7 +71,7 @@ export const Pagination = ({
                   onPageChange(number);
                 }
               }}
-              className={classNames}
+              className="px-2 py-2 flex border cursor-pointer"
               style={
                 currentPage === number
                   ? { borderColor: "red" }
@@ -85,7 +83,10 @@ export const Pagination = ({
             </li>
           ))}
         </ul>
-        <button onClick={nextPage} className="cursor-pointer">
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          className="cursor-pointer"
+        >
           Next
         </button>
       </nav>
@@ -93,7 +94,7 @@ export const Pagination = ({
         <select
           className="flex ml-4 p-2"
           onChange={handleSelectChange}
-          value={postsPerPage}
+          value={rowsPerPage}
         >
           <option value="5">5</option>
           <option value="10">10</option>

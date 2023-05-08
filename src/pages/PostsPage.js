@@ -36,24 +36,14 @@ export const PostsPage = () => {
   }, []);
 
   const totalPosts = data?.length;
+  const lastPage = totalPosts / postsPerPage;
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = data?.slice(indexOfFirstPost, indexOfLastPost);
-  const lastPage = totalPosts / postsPerPage;
 
   const onPageChange = (number) => {
-    setCurrentPage(number);
-  };
-
-  const previousPage = () => {
-    if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const nextPage = () => {
-    if (currentPage !== lastPage) {
-      setCurrentPage(currentPage + 1);
+    if (number >= 1 && number <= lastPage) {
+      setCurrentPage(number);
     }
   };
 
@@ -67,11 +57,9 @@ export const PostsPage = () => {
         data={currentPosts}
         columns={columnNames}
         onPageChange={onPageChange}
-        previousPage={previousPage}
-        nextPage={nextPage}
         currentPage={currentPage}
         total={totalPosts}
-        postsPerPage={postsPerPage}
+        rowsPerPage={postsPerPage}
         handleSelectChange={handleSelectChange}
         isLoading={isLoading}
       />

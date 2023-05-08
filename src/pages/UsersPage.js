@@ -72,18 +72,8 @@ export const UsersPage = () => {
   };
 
   const onPageChange = (number) => {
-    setCurrentPage(number);
-  };
-
-  const previousPage = () => {
-    if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const nextPage = () => {
-    if (currentPage !== lastPage) {
-      setCurrentPage(currentPage + 1);
+    if (number >= 1 && number <= lastPage) {
+      setCurrentPage(number);
     }
   };
 
@@ -102,11 +92,9 @@ export const UsersPage = () => {
         data={currentUsers}
         columns={columnNames}
         onPageChange={onPageChange}
-        previousPage={previousPage}
-        nextPage={nextPage}
         currentPage={currentPage}
         total={totalUsers}
-        postsPerPage={usersPerPage}
+        rowsPerPage={usersPerPage}
         handleSelectChange={handleSelectChange}
         isLoading={isLoading}
       />

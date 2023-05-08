@@ -8,9 +8,7 @@ export const List = ({
   total,
   onPageChange,
   currentPage,
-  nextPage,
-  previousPage,
-  postsPerPage,
+  rowsPerPage,
   handleSelectChange,
   isLoading,
 }) => {
@@ -58,10 +56,8 @@ export const List = ({
       <Pagination
         total={total}
         onPageChange={onPageChange}
-        nextPage={nextPage}
-        previousPage={previousPage}
         currentPage={currentPage}
-        postsPerPage={postsPerPage}
+        rowsPerPage={rowsPerPage}
         handleSelectChange={handleSelectChange}
       />
     </div>

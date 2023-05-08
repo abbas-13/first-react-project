@@ -5,6 +5,5 @@
 html,
 body,
 #root {
-  /* @apply h-full; */
   height: 100%;
 }
