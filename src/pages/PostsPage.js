@@ -36,7 +36,7 @@ export const PostsPage = () => {
   }, []);
 
   const totalPosts = data?.length;
-  const lastPage = totalPosts / postsPerPage;
+  const lastPage = Math.ceil(totalPosts / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = data?.slice(indexOfFirstPost, indexOfLastPost);
