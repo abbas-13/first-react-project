@@ -6,6 +6,7 @@ export const Sidebar = () => {
     { label: "About Us", path: "/AboutUs" },
     { label: "Contact Us", path: "/ContactUs" },
     { label: "Users", path: "/Users" },
+    { label: "Posts", path: "/Posts" },
   ];
 
   const renderedLinks = links.map((link) => {
