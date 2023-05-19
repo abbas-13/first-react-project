@@ -9,13 +9,12 @@ export const Sidebar = () => {
     { label: "Posts", path: "/Posts" },
   ];
 
-  const renderedLinks = links.map((link) => {
-    return (
+  const renderedLinks = links.map((link) => (
       <li key={link.label} className="mb-2">
         <Link to={link.path}>{link.label}</Link>
       </li>
-    );
-  });
+    ));
+
   return (
     <div className="w-48 h-full bg-slate-200 border-r-2 border-gray-300 p-4">
       <ul>{renderedLinks}</ul>

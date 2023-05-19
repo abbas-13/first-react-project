@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { uniq } from "lodash-es";
 
@@ -10,7 +11,7 @@ export const Pagination = ({
 }) => {
   const [pagesToShow, setPagesToShow] = useState([1]);
 
-  const lastPage = Math.ceil(total / rowsPerPage);
+  const lastPage = total ? Math.ceil(total / rowsPerPage) : 1;
 
   const getPagesToShow = () => {
     if (lastPage === 1) {
@@ -102,4 +103,20 @@ export const Pagination = ({
       </div>
     </div>
   );
+};
+
+Pagination.defaultProps = {
+  total: 0,
+  currentPage: 1,
+  onPageChange: () => {},
+  rowsPerPage: 10,
+  handleSelectChange: () => {},
+};
+
+Pagination.propTypes = {
+  total: PropTypes.number,
+  currentPage: PropTypes.number,
+  onPageChange: PropTypes.func,
+  rowsPerPage: PropTypes.number,
+  handleSelectChange: PropTypes.func,
 };

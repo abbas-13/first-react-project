@@ -9,12 +9,10 @@ function ContactUsPage() {
   });
 
   const handleChange = (key) => (event) => {
-    setInputValue((prevState) => {
-      return {
+    setInputValue((prevState) => ({
         ...prevState,
         [key]: event.target.value,
-      };
-    });
+      }));
   };
 
   const handleSubmit = (event) => {
