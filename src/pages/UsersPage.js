@@ -32,7 +32,6 @@ export const UsersPage = () => {
     };
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayedSearch = useCallback(
     debounce((query) => setSearchParams(query)),
     []
@@ -46,6 +45,7 @@ export const UsersPage = () => {
       );
 
       const usersData = await response.json();
+
       setData(usersData);
     } catch (err) {
       console.log(err.message);

@@ -23,6 +23,7 @@ export const PostsPage = () => {
         "https://jsonplaceholder.typicode.com/posts"
       );
       const postsData = await response.json();
+      
       setData(postsData);
     } catch (err) {
       console.log(err.message);

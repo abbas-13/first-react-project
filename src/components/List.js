@@ -1,6 +1,8 @@
-import { Pagination } from "./Pagination";
+import PropTypes from "prop-types";
 
 import logo from "../giphy.webp";
+
+import { Pagination } from "./Pagination";
 
 export const List = ({
   data,
@@ -10,32 +12,26 @@ export const List = ({
   currentPage,
   rowsPerPage,
   handleSelectChange,
-  isLoading,
+  isLoading
 }) => {
-  const renderedHeaders = columns.map((column) => {
-    return (
-      <th className="px-4 py-2 border-b-2" key={column.keyName}>
-        {column.value}
-      </th>
-    );
-  });
+  const renderedHeaders = columns.map((column) => (
+    <th className="px-4 py-2 border-b-2" key={column.keyName}>
+      {column.value}
+    </th>
+  ));
 
-  const renderedItems = data?.map((item, index) => {
-    return (
+  const renderedItems = data?.map((item, index) => (
       <tr key={index}>
-        {columns.map((column, index) => {
-          return (
+        {columns.map((column, index) => (
             <td
               className="px-4 py-2 break-words"
               key={`${index} - ${item[column.keyName]}`}
             >
               {item[column.keyName]}
             </td>
-          );
-        })}
+          ))}
       </tr>
-    );
-  });
+    ));
 
   if (isLoading) {
     return (
@@ -62,4 +58,31 @@ export const List = ({
       />
     </div>
   );
+};
+
+List.defaultProps = {
+  data: [],
+  columns: [],
+  total: 0,
+  onPageChange: () => {},
+  currentPage: 1,
+  rowsPerPage: 10,
+  handleSelectChange: () => {},
+  isLoading: false,
+};
+
+List.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({})),
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      keyName: PropTypes.string,
+    })
+  ),
+  total: PropTypes.number,
+  onPageChange: PropTypes.func,
+  currentPage: PropTypes.number,
+  rowsPerPage: PropTypes.number,
+  handleSelectChange: PropTypes.func,
+  isLoading: PropTypes.bool
 };
