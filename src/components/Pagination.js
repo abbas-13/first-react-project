@@ -7,7 +7,7 @@ export const Pagination = ({
   currentPage,
   onPageChange,
   rowsPerPage,
-  handleSelectChange,
+  onLimitUpdate,
 }) => {
   const [pagesToShow, setPagesToShow] = useState([1]);
 
@@ -94,7 +94,7 @@ export const Pagination = ({
       <div>
         <select
           className="flex ml-4 p-2"
-          onChange={handleSelectChange}
+          onChange={onLimitUpdate}
           value={rowsPerPage}
         >
           <option value="5">5</option>
@@ -110,7 +110,7 @@ Pagination.defaultProps = {
   currentPage: 1,
   onPageChange: () => {},
   rowsPerPage: 10,
-  handleSelectChange: () => {},
+  onLimitUpdate: () => {},
 };
 
 Pagination.propTypes = {
@@ -118,5 +118,5 @@ Pagination.propTypes = {
   currentPage: PropTypes.number,
   onPageChange: PropTypes.func,
   rowsPerPage: PropTypes.number,
-  handleSelectChange: PropTypes.func,
+  onLimitUpdate: PropTypes.func,
 };
