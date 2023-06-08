@@ -1,14 +1,18 @@
 import { useEffect, useCallback, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { array } from "prop-types";
 
 import { SearchBar } from "../components/Search";
 import { List } from "../components/List";
 
+const baseURL = "https://dummyjson.com/products";
+
 export const ProductsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    products: [],
+    total: 0,
+  });
   const [pagination, setPagination] = useState({
     currentPage: 1,
     limit: 10,
@@ -49,21 +53,26 @@ export const ProductsPage = () => {
   );
 
   const fetchData = async (
-    queryString = inputValue ? "" : "limit=10&skip=0"
+    queryString = inputValue.length ? "" : "limit=10&skip=0"
   ) => {
     try {
       setIsLoading(true);
 
-      const response = inputValue
-        ? await fetch(`https://dummyjson.com/products/search?q=${queryString}`)
-        : await fetch(`https://dummyjson.com/products?${queryString}`);
+      const apiToUse = inputValue.length
+        ? `${baseURL}/search?q=${queryString}`
+        : `${baseURL}?${queryString}`;
+
+      const response = await fetch(apiToUse);
 
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const productsData = await response.json();
 
-      setData(productsData.products);
+      setData({
+        products: productsData.products,
+        total: inputValue.length ? productsData.length : 100,
+      });
     } catch (err) {
       console.log(err.message);
     } finally {
@@ -94,8 +103,7 @@ export const ProductsPage = () => {
     }
   }, [pagination, searchParams]);
 
-  const totalProducts = 100;
-  const lastPage = Math.ceil(totalProducts / pagination.limit);
+  const lastPage = Math.ceil(data.total / pagination.limit);
 
   const onPageChange = (number) => {
     if (number >= 1 && number <= lastPage) {
@@ -121,8 +129,11 @@ export const ProductsPage = () => {
   const handleChange = (event) => {
     const targetValue = event.target.value;
 
+    const delayedSearchVar =
+      targetValue === "" ? "limit=10&skip=0" : { product: targetValue };
+
     setInputValue(targetValue);
-    delayedSearch({ product: targetValue });
+    delayedSearch(delayedSearchVar);
   };
 
   const onLimitUpdate = (event) => {
@@ -132,13 +143,13 @@ export const ProductsPage = () => {
 
     setPagination((prevState) => {
       updatedCurrentPage =
-        prevState.currentPage > totalProducts / updatedLimit
-          ? Math.ceil(totalProducts / updatedLimit)
+        prevState.currentPage > data.total / updatedLimit
+          ? Math.ceil(data.total / updatedLimit)
           : prevState.currentPage;
 
       updatedSkip =
-        prevState.skip > totalProducts
-          ? Math.ceil((totalProducts - updatedLimit) / 10) * 10
+        prevState.skip > data.total
+          ? Math.ceil((data.total - updatedLimit) / 10) * 10
           : (updatedCurrentPage - 1) * updatedLimit;
 
       return {
@@ -163,8 +174,8 @@ export const ProductsPage = () => {
       />
       <List
         columns={columnNames}
-        data={data}
-        total={totalProducts}
+        data={data.products}
+        total={data.total}
         onPageChange={onPageChange}
         currentPage={pagination.currentPage}
         rowsPerPage={pagination.limit}

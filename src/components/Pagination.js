@@ -59,7 +59,11 @@ export const Pagination = ({
     <div className="flex items-baseline my-8 justify-center">
       <nav className="flex items-baseline justify-center">
         <button
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => {
+            if (currentPage - 1 !== 0) {
+              onPageChange(currentPage - 1);
+            }
+          }}
           className="cursor-pointer"
         >
           Previous
@@ -85,7 +89,11 @@ export const Pagination = ({
           ))}
         </ul>
         <button
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => {
+            if (currentPage + 1 !== lastPage + 1) {
+              onPageChange(currentPage + 1);
+            }
+          }}
           className="cursor-pointer"
         >
           Next
