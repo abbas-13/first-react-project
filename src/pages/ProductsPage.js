@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { SearchBar } from "../components/Search";
 import { List } from "../components/List";
+import { debounce } from "../utilities/debounce";
 
 const baseURL = "https://dummyjson.com/products";
 
@@ -35,18 +36,6 @@ export const ProductsPage = () => {
     // {value: "Images", keyName: "images", type: "image"}
   ];
 
-  const debounce = (func, timeout = 1000) => {
-    let timer;
-
-    return (...args) => {
-      clearTimeout(timer);
-
-      timer = setTimeout(() => {
-        func.apply(this, args);
-      }, timeout);
-    };
-  };
-
   const delayedSearch = useCallback(
     debounce((query) => setSearchParams(query)),
     []
@@ -59,14 +48,10 @@ export const ProductsPage = () => {
       setIsLoading(true);
 
       const apiToUse = inputValue.length
-        ? `${baseURL}/search?q=${queryString}`
+        ? `${baseURL}/search?${queryString}`
         : `${baseURL}?${queryString}`;
 
       const response = await fetch(apiToUse);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
       const productsData = await response.json();
 
       setData({
@@ -84,14 +69,8 @@ export const ProductsPage = () => {
     const queryParams = Object.fromEntries([...searchParams]);
     const arrayParams = [];
 
-    if (inputValue) {
-      for (const key in queryParams) {
-        arrayParams.push(`${queryParams[key]}`);
-      }
-    } else {
-      for (const key in queryParams) {
-        arrayParams.push(`${key}=${queryParams[key]}`);
-      }
+    for (const key in queryParams) {
+      arrayParams.push(`${key}=${queryParams[key]}`);
     }
 
     const updatedQueryParams = arrayParams.join("&");
@@ -130,7 +109,7 @@ export const ProductsPage = () => {
     const targetValue = event.target.value;
 
     const delayedSearchVar =
-      targetValue === "" ? "limit=10&skip=0" : { product: targetValue };
+      targetValue === "" ? "limit=10&skip=0" : { q: targetValue };
 
     setInputValue(targetValue);
     delayedSearch(delayedSearchVar);
