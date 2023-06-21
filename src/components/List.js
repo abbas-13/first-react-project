@@ -30,8 +30,8 @@ export const List = ({
           {column.type === "image" ? (
             <img
               className="px-6"
-              src={`${item[column.keyName]}`}
-              alt={`${item[column.keyName]}`}
+              src={item[column.keyName]}
+              alt={item[column.keyName]}
             />
           ) : (
             item[column.keyName]
