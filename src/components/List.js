@@ -11,8 +11,8 @@ export const List = ({
   onPageChange,
   currentPage,
   rowsPerPage,
-  handleSelectChange,
-  isLoading
+  onLimitUpdate,
+  isLoading,
 }) => {
   const renderedHeaders = columns.map((column) => (
     <th className="px-4 py-2 border-b-2" key={column.keyName}>
@@ -21,17 +21,25 @@ export const List = ({
   ));
 
   const renderedItems = data?.map((item, index) => (
-      <tr key={index}>
-        {columns.map((column, index) => (
-            <td
-              className="px-4 py-2 break-words"
-              key={`${index} - ${item[column.keyName]}`}
-            >
-              {item[column.keyName]}
-            </td>
-          ))}
-      </tr>
-    ));
+    <tr key={index}>
+      {columns.map((column, index) => (
+        <td
+          className="px-4 py-2 break-words"
+          key={`${index} - ${item[column.keyName]}`}
+        >
+          {column.type === "image" ? (
+            <img
+              className="px-6"
+              src={item[column.keyName]}
+              alt={item[column.keyName]}
+            />
+          ) : (
+            item[column.keyName]
+          )}
+        </td>
+      ))}
+    </tr>
+  ));
 
   if (isLoading) {
     return (
@@ -43,7 +51,7 @@ export const List = ({
 
   return (
     <div>
-      <table>
+      <table className="w-full">
         <thead>
           <tr>{renderedHeaders}</tr>
         </thead>
@@ -54,7 +62,7 @@ export const List = ({
         onPageChange={onPageChange}
         currentPage={currentPage}
         rowsPerPage={rowsPerPage}
-        handleSelectChange={handleSelectChange}
+        onLimitUpdate={onLimitUpdate}
       />
     </div>
   );
@@ -67,7 +75,7 @@ List.defaultProps = {
   onPageChange: () => {},
   currentPage: 1,
   rowsPerPage: 10,
-  handleSelectChange: () => {},
+  onLimitUpdate: () => {},
   isLoading: false,
 };
 
@@ -83,6 +91,6 @@ List.propTypes = {
   onPageChange: PropTypes.func,
   currentPage: PropTypes.number,
   rowsPerPage: PropTypes.number,
-  handleSelectChange: PropTypes.func,
-  isLoading: PropTypes.bool
+  onLimitUpdate: PropTypes.func,
+  isLoading: PropTypes.bool,
 };

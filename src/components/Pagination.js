@@ -7,7 +7,7 @@ export const Pagination = ({
   currentPage,
   onPageChange,
   rowsPerPage,
-  handleSelectChange,
+  onLimitUpdate,
 }) => {
   const [pagesToShow, setPagesToShow] = useState([1]);
 
@@ -59,7 +59,11 @@ export const Pagination = ({
     <div className="flex items-baseline my-8 justify-center">
       <nav className="flex items-baseline justify-center">
         <button
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => {
+            if (currentPage - 1 !== 0) {
+              onPageChange(currentPage - 1);
+            }
+          }}
           className="cursor-pointer"
         >
           Previous
@@ -85,7 +89,11 @@ export const Pagination = ({
           ))}
         </ul>
         <button
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => {
+            if (currentPage + 1 !== lastPage + 1) {
+              onPageChange(currentPage + 1);
+            }
+          }}
           className="cursor-pointer"
         >
           Next
@@ -94,7 +102,7 @@ export const Pagination = ({
       <div>
         <select
           className="flex ml-4 p-2"
-          onChange={handleSelectChange}
+          onChange={onLimitUpdate}
           value={rowsPerPage}
         >
           <option value="5">5</option>
@@ -110,7 +118,7 @@ Pagination.defaultProps = {
   currentPage: 1,
   onPageChange: () => {},
   rowsPerPage: 10,
-  handleSelectChange: () => {},
+  onLimitUpdate: () => {},
 };
 
 Pagination.propTypes = {
@@ -118,5 +126,5 @@ Pagination.propTypes = {
   currentPage: PropTypes.number,
   onPageChange: PropTypes.func,
   rowsPerPage: PropTypes.number,
-  handleSelectChange: PropTypes.func,
+  onLimitUpdate: PropTypes.func,
 };

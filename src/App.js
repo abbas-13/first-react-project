@@ -6,6 +6,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import { AppShell } from "./components/AppShell";
 import { UsersPage } from "./pages/UsersPage";
 import { PostsPage } from "./pages/PostsPage";
+import { ProductsPage } from "./pages/ProductsPage";
 
 function App() {
   return (
@@ -49,6 +50,14 @@ function App() {
           element={
             <AppShell>
               <PostsPage className="justify" />
+            </AppShell>
+          }
+        />
+        <Route
+          path="/Products"
+          element={
+            <AppShell>
+              <ProductsPage className="justify" />
             </AppShell>
           }
         />
