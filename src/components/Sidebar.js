@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 export const Sidebar = () => {
   const links = [
-    { label: "Login", path: "/Login" },
     { label: "Home", path: "/" },
     { label: "About Us", path: "/AboutUs" },
     { label: "Contact Us", path: "/ContactUs" },
