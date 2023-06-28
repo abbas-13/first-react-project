@@ -11,3 +11,7 @@ body,
 th {
   text-align: left;
 }
+
+#sidebar a.active {
+  color: blue;
+}
