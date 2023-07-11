@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 export const SearchBar = ({ handleChange, inputValue, placeholder }) => (
   <input
     onChange={handleChange}
-    className="rounded-lg border mx-3.5 p-1 w-64"
+    className="rounded-lg border mx-3.5 p-2 border-gray-800 w-64"
     placeholder={placeholder}
     value={inputValue}
   />

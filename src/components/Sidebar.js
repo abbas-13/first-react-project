@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export const Sidebar = () => {
   const links = [
-    { label: "Home", path: "/" },
+    { label: "Home", path: "/Homepage" },
     { label: "About Us", path: "/AboutUs" },
     { label: "Contact Us", path: "/ContactUs" },
     { label: "Users", path: "/Users" },
