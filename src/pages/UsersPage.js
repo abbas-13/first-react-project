@@ -82,7 +82,7 @@ export const UsersPage = () => {
   };
 
   return (
-    <div>
+    <div className="justify-center ml-4 py-4">
       <SearchBar
         placeholder="Username"
         handleChange={handleChange}

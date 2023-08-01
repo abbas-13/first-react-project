@@ -51,7 +51,7 @@ export const List = ({
 
   return (
     <div>
-      <table className="w-full">
+      <table className="w-full m-2">
         <thead>
           <tr>{renderedHeaders}</tr>
         </thead>
