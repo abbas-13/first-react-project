@@ -56,7 +56,7 @@ export const Pagination = ({
   }, [currentPage, rowsPerPage]);
 
   return (
-    <div className="flex items-baseline my-8 justify-center">
+    <div className="flex  my-8 flex-none justify-center">
       <nav className="flex items-baseline justify-center">
         <button
           onClick={() => {
