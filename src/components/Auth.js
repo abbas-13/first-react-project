@@ -29,13 +29,16 @@ export const Auth = ({ children }) => {
       const usersData = await response.json();
 
       setUser(usersData);
-      localStorage.setItem("authToken", usersData.token);
-      setToken(jwtDecode(usersData.token));
-      setLoading(false);
 
-      navigate("/Homepage");
+      if (usersData.token) {
+        localStorage.setItem("authToken", usersData.token);
+        setToken(jwtDecode(usersData.token));
+        setLoading(false);
+      }
+
+      return usersData.message;
     } catch (err) {
-      console.log(err.message);
+      // console.log(err);
     }
   };
 
@@ -47,11 +50,10 @@ export const Auth = ({ children }) => {
     if (!authToken) {
       return false;
     }
-
     const currentDate = new Date();
     const tokenExp = new Date(authToken.exp * 1000);
 
-    return tokenExp > currentDate;
+    return { isValid: tokenExp > currentDate, authToken };
   };
 
   const fetchUser = async () => {
@@ -70,20 +72,20 @@ export const Auth = ({ children }) => {
 
       setUser(userToDisplay);
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
     }
   };
 
   useEffect(() => {
     if (!user) {
-      const isValid = isTokenValid();
+      const { isValid, authToken } = isTokenValid();
 
       if (!isValid) {
-        navigate("/");
+        navigate("/Login");
+      } else if (!authToken.given_name) {
+        fetchUser();
       }
     }
-
-    fetchUser();
   }, []);
 
   return (
